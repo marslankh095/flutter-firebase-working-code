@@ -1,0 +1,58 @@
+Bilkul 👏 yah raha ek poora explain kiya gaya document simple aur samajhnay wali zubaan (Roman Urdu + thodi Urdu mix) me — jo batata hai ke ye app kya karti hai, Flutter is ko kaise manage karta hai, aur “static screens” ka kya role hai.👇
+
+📱 App ka Overview (Kya karti hai yeh app)
+
+Yeh ek multi-onboarding Flutter app hai.
+Matlab jab koi naya user (Carrier ya Shipper) app open karta hai, to use ek-ek screen dikha kar information collect ya explain ki jati hai — isse hum Onboarding Screens kehte hain.
+
+App me do main categories hain:
+
+Carrier Onboarding → truck drivers ya carriers ke liye
+
+Shipper Onboarding → jo load bhejte hain un ke liye
+
+In dono ke alawa kuch other onboarding aur signup/login screens bhi hain.
+
+⚙️ Flutter ka role aur working
+1️⃣ main.dart
+
+Ye app ka entry point hai — jab app start hoti hai, main() function run hota hai aur runApp(MyApp()) se poora Flutter framework load hota hai.
+
+Isme humne:
+
+Saare screens import kiye hain
+
+Ek list banayi _screens jisme saari onboarding aur signup/login screens add ki gayi hain
+
+_currentIndex rakha gaya hai jo bataata hai abhi kaunsa screen dikha raha hai
+
+Phir ek loop ke through har 1 second baad screen change hota hai:
+
+for (int i = 1; i < _screens.length; i++) {
+   await Future.delayed(const Duration(seconds: 1));
+   setState(() { _currentIndex = i; });
+}
+
+
+Yani har 1 second me ek screen se next screen par shift hota hai.
+Ye transition automatic hai — user input ke bina.
+
+2️⃣ MaterialApp
+
+MaterialApp ek Flutter widget hai jo:
+
+App ka navigation manage karta hai
+
+Theme aur structure control karta hai
+
+“home” property ke zariye decide karta hai pehla screen kya hoga
+
+Yahan par home: _screens[_currentIndex] likha gaya hai,
+jo runtime me _currentIndex ke hisaab se naya screen show karta hai.
+
+3️⃣ Widget Tree ka concept
+
+Flutter me har screen ek Widget hai — aur ye widgets mil kar ek “Widget Tree” banate hain.
+MyApp root widget hai, uske andar MaterialApp, uske andar Scaffold, aur uske andar har onboarding screen ka design hota hai.
+
+Jab setState() call hoti hai, Flutter apne hot-reload engine se sirf wo portion rebuild karta hai jahan
